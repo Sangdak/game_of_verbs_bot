@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "game-of-verbs-bot"
+version = "0.1.0"
+description = ""
+authors = ["Sangdak <82779027+Sangdak@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "game_of_verbs_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-telegram-bot = "~13"
+environs = "^9.5.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
