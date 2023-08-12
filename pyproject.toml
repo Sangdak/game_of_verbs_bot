@@ -10,6 +10,7 @@ packages = [{include = "game_of_verbs_bot"}]
 python = "^3.11"
 python-telegram-bot = "~13"
 environs = "^9.5.0"
+google-cloud-dialogflow = "^2.23.3"
 
 
 [build-system]

@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 /.only_local_notes.txt
 /.python-version
+/google-cloud-cli-442.0.0-linux-x86_64.tar.gz
