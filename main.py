@@ -1,37 +1,24 @@
+import json
 import logging
+from pathlib import Path
+from pprint import pprint
 
 from environs import Env
 
-from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-
-import dialogflow_api
+import dialogflow_api, telegram_api
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def handle_start_command(update: Update, context: CallbackContext) -> None:
-    user = update.effective_user
-    update.message.reply_markdown_v2(
-        fr'Здравствуйте, {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
+def create_intent_from_json(filepath):
+    file = Path(filepath)
+    with open(file, 'r', encoding='utf8') as f:
+        intents = json.load(f)
 
-
-def handle_help_command(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Help!')
-
-
-# def handle_echo_message(update: Update, context: CallbackContext) -> None:
-#     update.message.reply_text(update.message.text)
-
-
-def handle_text_message(update: Update, context: CallbackContext) -> None:
-    dialogflow_message = dialogflow_api.main(update.message.chat_id, update.message.text)
-    # print(dialogflow_message)
-    update.message.reply_text(dialogflow_message)
+    for title, value in intents.items():
+        dialogflow_api.create_intent(title, value.get('questions'), value.get('answer'))
 
 
 def main():
@@ -39,17 +26,13 @@ def main():
     env.read_env(override=True)
 
     tg_bot_token = env.str('TG_BOT_TOKEN')
+    intent_json = 'questions.json'
+    adding_mode = False
 
-    updater = Updater(tg_bot_token)
-    dispatcher = updater.dispatcher
+    if adding_mode:
+        create_intent_from_json(intent_json)
 
-    dispatcher.add_handler(CommandHandler("start", handle_start_command))
-    dispatcher.add_handler(CommandHandler("help", handle_help_command))
-    # dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_echo_message))
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_text_message))
-
-    updater.start_polling()
-    updater.idle()
+    telegram_api.activate_tg_bot(tg_bot_token)
 
 
 if __name__ == '__main__':
