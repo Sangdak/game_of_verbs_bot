@@ -5,7 +5,7 @@ from pprint import pprint
 
 from environs import Env
 
-import dialogflow_api, telegram_api
+import dialogflow_api, telegram_bot_api
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -32,7 +32,7 @@ def main():
     if adding_mode:
         create_intent_from_json(intent_json)
 
-    telegram_api.activate_tg_bot(tg_bot_token)
+    telegram_bot_api.activate_tg_bot(tg_bot_token)
 
 
 if __name__ == '__main__':
