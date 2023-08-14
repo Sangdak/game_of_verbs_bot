@@ -1,4 +1,5 @@
 import argparse
+from environs import Env
 import json
 import logging
 import os.path
@@ -26,7 +27,7 @@ def create_parser():
     return parser
 
 
-def detect_intent_texts(session_id, texts, project_id='testedproject-381406', language_code='ru-ru'):
+def detect_intent_texts(session_id, texts, project_id, language_code='ru-ru'):
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
     print(f'Session path: {session}', end='\n')
@@ -50,16 +51,16 @@ def detect_intent_texts(session_id, texts, project_id='testedproject-381406', la
         return response.query_result.fulfillment_text, response.query_result.intent.is_fallback
 
 
-def create_intent_from_json(filepath):
+def create_intent_from_json(filepath, project_id):
     file = Path(filepath)
     with open(file, 'r', encoding='utf8') as f:
         intents = json.load(f)
 
     for title, value in intents.items():
-        create_intent(title, value.get('questions'), value.get('answer'))
+        create_intent(title, value.get('questions'), value.get('answer'), project_id)
 
 
-def create_intent(display_name, training_phrases_parts, message_texts, project_id='testedproject-381406'):
+def create_intent(display_name, training_phrases_parts, message_texts, project_id):
 
     intents_client = dialogflow.IntentsClient()
 
@@ -86,12 +87,16 @@ def create_intent(display_name, training_phrases_parts, message_texts, project_i
 
 
 def main():
+    env = Env()
+    env.read_env(override=True)
+    project_id = env.str('DIALOGFLOW_PROJECT_ID')
+
     parser = create_parser()
     args = parser.parse_args()
 
     if os.path.isfile(args.intent_from_file):
         print('File exists, start processing')
-        create_intent_from_json(args.intent_from_file)
+        create_intent_from_json(args.intent_from_file, project_id)
     else:
         print(
             f'ERROR: File {args.intent_from_file} not found,'

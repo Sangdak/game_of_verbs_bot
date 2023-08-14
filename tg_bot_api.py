@@ -24,10 +24,13 @@ def handle_help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Help!')
 
 
-def handle_text_message(update: Update, context: CallbackContext) -> None:
+def handle_text_message(project_id, update: Update, context: CallbackContext) -> None:
+    env = Env()
+    env.read_env(override=True)
     dialogflow_message, is_fallback = dialogflow_api.detect_intent_texts(
         update.message.chat_id,
-        update.message.text
+        update.message.text,
+        env.str('DIALOGFLOW_PROJECT_ID'),
     )
     update.message.reply_text(dialogflow_message)
 

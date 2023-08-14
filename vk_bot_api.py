@@ -19,6 +19,7 @@ def main():
     env = Env()
     env.read_env(override=True)
     vk_group_token = env.str('VK_BOT_TOKEN')
+    project_id = env.str('DIALOGFLOW_PROJECT_ID')
 
     vk_session = vk_api.VkApi(token=vk_group_token)
 
@@ -27,7 +28,7 @@ def main():
         for event in longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 vk_api_session = vk_session.get_api()
-                message, is_fallback = dialogflow_api.detect_intent_texts(event.user_id, event.text)
+                message, is_fallback = dialogflow_api.detect_intent_texts(event.user_id, event.text, project_id)
                 if not is_fallback:
                     send_message(event, vk_api_session, message)
 
