@@ -56,6 +56,10 @@ Structure of a json file:
 python dialogflow_api.py --intent_from_file <path/to/file.json>
 ```
 
+Example interaction with bot:
+[example interaction](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+
+
 
 ## Project Goals 
 This code is written for educational purposes - it is a lesson in a course on Python 
