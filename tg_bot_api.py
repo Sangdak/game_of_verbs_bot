@@ -25,7 +25,7 @@ def handle_help_command(update: Update, context: CallbackContext) -> None:
 
 
 def handle_text_message(update: Update, context: CallbackContext) -> None:
-    dialogflow_message = dialogflow_api.detect_intent_texts(
+    dialogflow_message, is_fallback = dialogflow_api.detect_intent_texts(
         update.message.chat_id,
         update.message.text
     )

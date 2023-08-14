@@ -27,8 +27,9 @@ def main():
         for event in longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 vk_api_session = vk_session.get_api()
-                message = dialogflow_api.detect_intent_texts(event.user_id, event.text)
-                send_message(event, vk_api_session, message)
+                message, is_fallback = dialogflow_api.detect_intent_texts(event.user_id, event.text)
+                if not is_fallback:
+                    send_message(event, vk_api_session, message)
 
 
 if __name__ == '__main__':

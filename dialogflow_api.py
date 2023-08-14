@@ -47,10 +47,7 @@ def detect_intent_texts(session_id, texts, project_id='testedproject-381406', la
             end='\n'
         )
         print(f'Fulfillment text: {response.query_result.fulfillment_text}', end='\n')
-
-        # print(response.query_result.)
-
-        return response.query_result.fulfillment_text
+        return response.query_result.fulfillment_text, response.query_result.intent.is_fallback
 
 
 def create_intent_from_json(filepath):
