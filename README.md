@@ -57,7 +57,7 @@ python dialogflow_api.py --intent_from_file <path/to/file.json>
 ```
 
 Example interaction with bot:
-[example interaction](https://github.com/Sangdak/game_of_verbs_bot/blob/master/readme.gif)
+<img src="https://github.com/Sangdak/game_of_verbs_bot/blob/master/readme.gif" width="450"/>
 
 
 
