@@ -3,10 +3,12 @@ import logging
 from pathlib import Path
 from pprint import pprint
 
+import requests.exceptions
+import urllib3.exceptions
 from environs import Env
 
-import dialogflow_api, telegram_bot_api
-
+import dialogflow_api, tg_bot_api
+import vk_bot_api
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -26,13 +28,15 @@ def main():
     env.read_env(override=True)
 
     tg_bot_token = env.str('TG_BOT_TOKEN')
+    vk_group_token = env.str('VK_BOT_TOKEN')
     intent_json = 'questions.json'
     adding_mode = False
 
     if adding_mode:
         create_intent_from_json(intent_json)
 
-    telegram_bot_api.activate_tg_bot(tg_bot_token)
+    vk_bot_api.interaction_vk_bot(vk_group_token)
+    tg_bot_api.interaction_tg_bot(tg_bot_token)
 
 
 if __name__ == '__main__':
