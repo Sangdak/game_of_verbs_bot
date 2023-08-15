@@ -8,7 +8,6 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 import dialogflow_api
 
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -35,6 +34,8 @@ def main():
     env = Env()
     env.read_env(override=True)
     tg_bot_token = env.str('TG_BOT_TOKEN')
+
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
     updater = Updater(tg_bot_token)
     dispatcher = updater.dispatcher

@@ -8,7 +8,6 @@ from pathlib import Path
 from google.cloud import dialogflow
 
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -80,6 +79,8 @@ def main():
     env = Env()
     env.read_env(override=True)
     project_id = env.str('DIALOGFLOW_PROJECT_ID')
+
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
     parser = create_parser()
     args = parser.parse_args()
