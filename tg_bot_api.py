@@ -20,10 +20,6 @@ def handle_start_command(update: Update, context: CallbackContext) -> None:
     )
 
 
-def handle_help_command(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Help!')
-
-
 def handle_text_message(update: Update, context: CallbackContext) -> None:
     env = Env()
     env.read_env(override=True)
@@ -44,7 +40,6 @@ def main():
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", handle_start_command))
-    dispatcher.add_handler(CommandHandler("help", handle_help_command))
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_text_message))
 
     updater.start_polling()
